@@ -1,0 +1,247 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>【完全版】Instagramから始めるMeta広告 初期設定マニュアル</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Noto+Sans+JP:wght@400;500;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Noto Sans JP', 'Inter', sans-serif;
+        }
+        .step-card {
+            border-left-width: 4px;
+        }
+        .mermaid {
+            background-color: #f9fafb;
+            border-radius: 0.5rem;
+            padding: 1rem;
+            text-align: center;
+        }
+        h1, h2, h3 {
+            font-family: 'Noto Sans JP', sans-serif;
+            font-weight: 700;
+        }
+        .key-point {
+            background-color: #fffbeb;
+            border-left-color: #f59e0b;
+        }
+        .warning-point {
+            background-color: #fff1f2;
+            border-left-color: #ef4444;
+        }
+    </style>
+</head>
+<body class="bg-gray-50 text-gray-800">
+
+    <div class="container mx-auto max-w-4xl p-4 sm:p-8">
+        
+        <header class="mb-12 text-center">
+            <h1 class="text-3xl sm:text-4xl font-bold text-gray-900 mb-2">【完全版】Meta広告 初期設定マニュアル</h1>
+            <p class="text-lg text-gray-600">Instagramアカウントから始める、後で困らないための完全ガイド</p>
+        </header>
+
+        <!-- 構造理解セクション -->
+        <section id="structure" class="mb-16">
+            <h2 class="text-2xl font-bold border-b-2 border-blue-500 pb-2 mb-6">はじめに：なぜ丁寧な初期設定が重要なのか？</h2>
+            <p class="mb-6">Meta広告（Instagram/Facebook広告）は非常に強力なツールですが、その裏側は複数のアカウントが複雑に関係し合う構造になっています。この構造を理解せずに設定を進めると、「権限がない」「支払い方法が設定できない」といったトラブルが後を絶ちません。この手順書では、まずその「全体像」を理解し、その上で一つずつ確実な設定を進めていきます。</p>
+            
+            <h3 class="text-xl font-bold mb-4">Metaビジネス関連アカウント 構造図</h3>
+            <div class="mermaid-container bg-white p-4 rounded-lg shadow-md">
+                <div class="mermaid">
+                    graph TD
+                        %% ----- スタイルの定義 -----
+                        classDef person fill:#e3f2fd,stroke:#42a5f5,stroke-width:2px;
+                        classDef owner fill:#fff3e0,stroke:#ffa726,stroke-width:2px;
+                        classDef asset fill:#e8f5e9,stroke:#66bb6a,stroke-width:2px;
+
+                        %% ----- ノード（各要素）の定義 -----
+
+                        subgraph " "
+                            %% レイヤー① 個人のFacebookアカウント (ログインの「鍵」)
+                            Owner("<b>あなた (オーナー)</b><br>個人のFBアカウント")
+                            MemberA("<b>チームメンバーA</b><br>個人のFBアカウント")
+                            MemberB("<b>チームメンバーB</b><br>個人のFBアカウント")
+                        end
+
+                        subgraph "Meta Business Account (「会社」の箱)"
+                            direction TB
+                            
+                            %% レイヤー④ 会社の「従業員名簿」
+                            Users["<b>ユーザーリスト</b><br>(あなた、メンバーA、メンバーB)"]
+
+                            %% レイヤー③ 会社の「部署・道具」
+                            subgraph "ビジネスアセット"
+                                direction LR
+                                FBPage["<b>Facebookページ</b>"]
+                                IG["<b>Instagramアカウント</b>"]
+                                AdAcct["<b>広告アカウント</b><br>+ 支払い方法"]
+                            end
+                        end
+
+                        %% ----- 関係性の定義 -----
+                        Owner -- "<b>所有・管理 (マスターキー)</b>" --> Users
+                        MemberA -- "招待されログインに使う (合鍵)" --> Users
+                        MemberB -- "招待されログインに使う (合鍵)" --> Users
+
+                        Users -- "に操作権限を割り当てる" --> FBPage
+                        Users -- "に操作権限を割り当てる" --> IG
+                        Users -- "に操作権限を割り当てる" --> AdAcct
+
+                        FBPage <--> |相互に連携| IG
+
+                        %% ---広告配信時の関係性を追加 ---
+                        AdAcct -.->|<b>広告の「配信元」として利用</b>| FBPage
+                        AdAcct -.->|<b>広告の「配信元」として利用</b>| IG
+
+                        %% ----- スタイルの適用 -----
+                        class Owner owner;
+                        class MemberA,MemberB person;
+                        class FBPage,IG,AdAcct,Users asset;
+                </div>
+            </div>
+            <div class="mt-6 space-y-4">
+                <div class="p-4 rounded-lg key-point">
+                    <h4 class="font-bold text-lg mb-2">図のポイント解説</h4>
+                    <ul class="list-disc list-inside space-y-2">
+                        <li><strong>個人のFBアカウントは「鍵」</strong>：ビジネスの操作をするためのログイン用の鍵です。個人のプライベート情報が見えることはありません。</li>
+                        <li><strong>Business Accountは「会社」</strong>：すべてのビジネス資産（アセット）を所有・管理する大元の箱です。</li>
+                        <li><strong>アセットは「道具」</strong>：FBページ、IGアカウント、広告アカウントは、会社が所有する個別の道具です。</li>
+                        <li><strong>ユーザーは「従業員」</strong>：会社に所属するメンバーです。誰にどの道具を使わせるか、権限を割り当てます。</li>
+                    </ul>
+                </div>
+                 <div class="p-4 rounded-lg key-point">
+                    <h4 class="font-bold text-lg mb-2">【重要】財布と身分証明書のアナロジー</h4>
+                    <p>広告配信時の関係は「財布」と「身分証明書」で考えると分かりやすいです。</p>
+                    <ul class="list-disc list-inside space-y-2 mt-2">
+                        <li><strong class="text-blue-600">広告アカウント</strong> ＝ <strong>財布</strong>：広告費を支払うお金が入っています。</li>
+                        <li><strong class="text-green-600">FBページ/IGアカウント</strong> ＝ <strong>身分証明書・名刺</strong>：広告の配信元となる「顔」です。</li>
+                    </ul>
+                    <p class="mt-2">つまり広告とは、<strong>「広告アカウント（財布）からお金を出し、Facebookページ（身分証明書）の名義で配信する」</strong>行為なのです。</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- 手順書セクション -->
+        <section id="steps">
+            <h2 class="text-2xl font-bold border-b-2 border-blue-500 pb-2 mb-8">Meta広告 初期設定 完全手順書</h2>
+            
+            <div class="space-y-12">
+                <!-- Step 0 -->
+                <div class="step-card border-gray-400 bg-white p-6 rounded-lg shadow">
+                    <h3 class="text-xl font-bold text-gray-900 mb-4">ステップ0：事前準備</h3>
+                    <p class="mb-4">設定を始める前に、以下の2つが準備できていることを確認してください。</p>
+                    <ul class="list-disc list-inside space-y-2">
+                        <li><strong>Instagramアカウント</strong>：広告を出したいアカウント。</li>
+                        <li><strong>Facebookの個人アカウント</strong>：ビジネス設定の管理者となるあなた自身の個人アカウント。必ず実在する本人の情報で登録してください。</li>
+                    </ul>
+                </div>
+
+                <!-- Step 1 -->
+                <div class="step-card border-blue-500 bg-white p-6 rounded-lg shadow">
+                    <h3 class="text-xl font-bold text-blue-700 mb-4">ステップ1：Instagramを「プロアカウント」に切り替える</h3>
+                    <p class="mb-4">まず、広告機能や分析機能（インサイト）を使えるようにするため、Instagramアカウントを「プロアカウント」に切り替えます。これはInstagramアプリから簡単に行えます。</p>
+                    <ol class="list-decimal list-inside space-y-2">
+                        <li>Instagramアプリでプロフィール画面を開き、右上のメニュー（三本線）をタップ。</li>
+                        <li>「設定とプライバシー」→「アカウントの種類とツール」→「プロアカウントに切り替える」を選択。</li>
+                        <li>画面の指示に従い、あなたのビジネスに最も近い「カテゴリ」を選択。</li>
+                        <li>アカウントの種類は**「ビジネス」**を選択します。（商品販売や店舗情報掲載に適しています）</li>
+                    </ol>
+                </div>
+
+                <!-- Step 2 -->
+                <div class="step-card border-blue-500 bg-white p-6 rounded-lg shadow">
+                    <h3 class="text-xl font-bold text-blue-700 mb-4">ステップ2：Metaビジネスアカウントを作成する【PC推奨】</h3>
+                    <p class="mb-4">ここからはPCでの作業を強く推奨します。ビジネスの「会社」となる大元の箱を作成します。</p>
+                    <ol class="list-decimal list-inside space-y-2">
+                        <li>PCのブラウザで <a href="https://business.facebook.com/overview" target="_blank" class="text-blue-600 hover:underline">business.facebook.com/overview</a> にアクセスします。</li>
+                        <li>「アカウントを作成」をクリックし、ビジネス名、あなたの名前、仕事用のメールアドレスを入力します。</li>
+                        <li>入力したメールアドレスに認証メールが届くので、必ず認証を完了させてください。</li>
+                    </ol>
+                </div>
+                
+                <!-- Step 3 -->
+                <div class="step-card border-blue-500 bg-white p-6 rounded-lg shadow">
+                    <h3 class="text-xl font-bold text-blue-700 mb-4">ステップ3：ビジネスアセット（道具）を連携する</h3>
+                    <p class="mb-4">作成した「会社」の箱に、あなたの「道具」であるFacebookページとInstagramアカウントを入れていきます。</p>
+                    <ol class="list-decimal list-inside space-y-2">
+                        <li>PCで <a href="https://business.facebook.com/settings" target="_blank" class="text-blue-600 hover:underline">Meta Business Suiteの設定画面</a>にアクセスします。</li>
+                        <li>左メニューの「アカウント」セクションにある**「ページ」**をクリックし、「＋追加」からあなたのFacebookページを追加します。（ページがない場合はここで新規作成します）</li>
+                        <li>次に、同じく「アカウント」セクションの**「Instagramアカウント」**をクリックし、「＋追加」からあなたのInstagramアカウントをログインして連携します。</li>
+                    </ol>
+                </div>
+
+                <!-- Step 4 -->
+                <div class="step-card border-blue-500 bg-white p-6 rounded-lg shadow">
+                    <h3 class="text-xl font-bold text-blue-700 mb-4">ステップ4：専用の「広告アカウント」を作成する</h3>
+                    <p class="mb-4">広告費の支払い専用の「財布」を作成します。これにより、個人の支払いとビジネスの支払いを明確に分離できます。</p>
+                    <ol class="list-decimal list-inside space-y-2">
+                        <li>引き続き、Business Suiteの設定画面で、左メニューの「アカウント」セクションにある**「広告アカウント」**をクリックします。</li>
+                        <li>「＋追加」ボタンを押し、**「新しい広告アカウントを作成」**を選択します。</li>
+                        <li>広告アカウント名、時間帯、通貨を設定します。</li>
+                    </ol>
+                    <div class="p-4 mt-4 rounded-lg warning-point">
+                        <h4 class="font-bold text-lg mb-2">【最重要注意点】</h4>
+                        <ul class="list-disc list-inside space-y-2">
+                            <li><strong>時間帯：</strong>必ず **(GMT+09:00) Tokyo** を選択してください。</li>
+                            <li><strong>通貨：</strong>必ず **JPY - 日本円** を選択してください。</li>
+                        </ul>
+                        <p class="mt-2">この2つの項目は、**一度設定すると二度と変更できません。** 間違えるとレポートの集計時間や支払いに大きな問題が生じます。</p>
+                    </div>
+                     <ol class="list-decimal list-inside space-y-2 mt-4" start="4">
+                        <li>次の画面で「この広告アカウントの使用者」を尋ねられたら**「自分のビジネス」**を選択します。</li>
+                        <li>最後に、あなた自身の名前を選択し、**「アカウントを管理（フルコントロール）」**の権限を自分に付与して作成を完了します。</li>
+                    </ol>
+                </div>
+                
+                <!-- Step 5 -->
+                <div class="step-card border-blue-500 bg-white p-6 rounded-lg shadow">
+                    <h3 class="text-xl font-bold text-blue-700 mb-4">ステップ5：支払い方法を設定する</h3>
+                    <p class="mb-4">作成した広告アカウント（財布）に、クレジットカード（お金）を入れます。</p>
+                    <ol class="list-decimal list-inside space-y-2">
+                        <li>Business Suiteの設定画面の左メニューから**「請求と支払い」**をクリックします。</li>
+                        <li>右上に表示される「支払い設定」ボタンをクリックします。</li>
+                        <li>「支払い方法を追加」から、先ほど作成した広告アカウントにクレジットカード情報などを登録します。</li>
+                    </ol>
+                </div>
+
+                <!-- Step 6 -->
+                <div class="step-card border-blue-500 bg-white p-6 rounded-lg shadow">
+                    <h3 class="text-xl font-bold text-blue-700 mb-4">ステップ6：チームメンバーを招待し、権限を割り当てる</h3>
+                    <p class="mb-4">チームで運用する場合、メンバーを「従業員」として招待し、適切な権限を割り当てます。</p>
+                    <ol class="list-decimal list-inside space-y-2">
+                        <li>Business Suiteの設定画面の左メニュー**「ユーザー」**セクションの**「ユーザー」**をクリックします。</li>
+                        <li>「＋ユーザーを招待」を押し、招待したいメンバーの仕事用メールアドレスを入力します。</li>
+                        <li><strong>【権限設定①：ビジネス全体の権限】</strong><br>次の画面で、メンバーに与えるビジネス全体の権限を決めます。支払い情報の管理なども任せる場合は、「詳細オプション」を展開し、**「財務」の「管理する」**をオンにします。</li>
+                        <li><strong>【権限設定②：アセット（道具）の権限】</strong><br>次の画面で、そのメンバーに操作を許可する「道具」を選択します。左のリストから「ページ」「広告アカウント」「Instagramアカウント」をそれぞれクリックし、右側に表示される権限（例：「キャンペーンを管理」など）をオンに設定します。</li>
+                        <li>「招待」を送信し、メンバーがメールから承認すれば完了です。</li>
+                    </ol>
+                     <div class="p-4 mt-4 rounded-lg key-point">
+                        <h4 class="font-bold text-lg mb-2">権限の修正方法</h4>
+                        <p>もし権限設定を間違えたり、後から変更したくなった場合は、「ユーザー」リストから該当のメンバー名をクリックし、**「アセットを割り当て」**ボタンからいつでも道具の権限を修正できます。ビジネス全体の権限（財務など）を修正したい場合は、一度ユーザーを削除して再招待するのが最も確実です。</p>
+                    </div>
+                </div>
+
+            </div>
+        </section>
+        
+        <!-- 完了セクション -->
+        <section id="conclusion" class="mt-16 pt-8 border-t">
+            <h2 class="text-2xl font-bold text-center mb-6">お疲れ様でした！これで全ての初期設定は完了です。</h2>
+            <p class="text-center text-lg mb-4">これで、あなたのビジネスはMeta広告を本格的に、そして安全に運用するための強固な土台が整いました。</p>
+            <div class="text-center">
+                 <a href="https://business.facebook.com/adsmanager" target="_blank" class="inline-block bg-green-600 text-white font-bold py-3 px-8 rounded-lg hover:bg-green-700 transition-colors">
+                    いざ、広告マネージャで最初の広告を作成する！
+                </a>
+            </div>
+        </section>
+
+    </div>
+
+    <script type="module">
+        import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.esm.min.mjs';
+        mermaid.initialize({ startOnLoad: true });
+    </script>
+</body>
+</html>
