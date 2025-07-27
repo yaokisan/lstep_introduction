@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>【共有資料】Lステップフォームを活用したLP作成手順と技術TIPS</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;500;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Noto Sans JP', sans-serif;
+            background-color: #f8fafc; /* slate-50 */
+        }
+        .step-number {
+            background-color: #4f46e5; /* indigo-600 */
+            color: white;
+            border-radius: 9999px;
+            width: 2.5rem;
+            height: 2.5rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 700;
+            font-size: 1.25rem;
+            flex-shrink: 0;
+        }
+        .code-block {
+            background-color: #1e293b; /* slate-800 */
+            color: #e2e8f0; /* slate-200 */
+            padding: 1rem;
+            border-radius: 0.5rem;
+            overflow-x: auto;
+            font-family: monospace;
+            font-size: 0.875rem;
+            line-height: 1.6;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="max-w-4xl mx-auto p-4 sm:p-8">
+        <!-- ヘッダー -->
+        <header class="mb-10 text-center">
+            <h1 class="text-3xl sm:text-4xl font-bold text-slate-800 mb-2">LステップフォームLP 作成手順書</h1>
+            <p class="text-slate-500">回答フォーム機能を活用したランディングページ作成のプロセスと技術TIPS</p>
+        </header>
+
+        <!-- 1. はじめに -->
+        <section class="bg-white rounded-lg shadow-md p-6 mb-8">
+            <div class="flex items-start gap-4">
+                <div class="step-number">1</div>
+                <div>
+                    <h2 class="text-2xl font-bold text-slate-800 mb-3">はじめに：今回のゴール</h2>
+                    <p class="text-slate-600 mb-4">この資料は、Lステップの回答フォーム機能を活用して、訴求力の高いランディングページ（LP）を作成する手順と、その際に使用した技術的なポイントをまとめたものです。</p>
+                    <div class="bg-indigo-50 border-l-4 border-indigo-500 p-4 rounded-r-lg">
+                        <h4 class="font-bold text-indigo-800">完成形のイメージ</h4>
+                        <ul class="list-disc list-inside text-indigo-700 mt-2 space-y-1">
+                            <li>Lステップのフォームでありながら、ヘッダーに作り込んだLPデザインを画像として表示させる。</li>
+                            <li>フォーム送信後は、LINE登録を促す専用のサンクスページに遷移させる。</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 2. Lステップフォームの基本設定 -->
+        <section class="bg-white rounded-lg shadow-md p-6 mb-8">
+            <div class="flex items-start gap-4">
+                <div class="step-number">2</div>
+                <div>
+                    <h2 class="text-2xl font-bold text-slate-800 mb-3">Lステップフォームの基本設定</h2>
+                    <p class="text-slate-600">まず、Lステップの管理画面から回答フォームを作成し、必要な項目（業種、氏名、役割など）を通常通り追加します。ここでの設定は標準的なものです。</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- 3. LP風ヘッダー画像の作成プロセス -->
+        <section class="bg-white rounded-lg shadow-md p-6 mb-8">
+            <div class="flex items-start gap-4">
+                <div class="step-number">3</div>
+                <div>
+                    <h2 class="text-2xl font-bold text-slate-800 mb-3">LP風ヘッダー画像の作成プロセス</h2>
+                    <p class="text-slate-600 mb-6">今回の施策の最も重要なポイントです。Lステップの標準機能だけでは表現できないデザインを、以下の手順で作成し、ヘッダー画像として設定しました。</p>
+                    
+                    <div class="space-y-6">
+                        <div>
+                            <h3 class="text-lg font-bold text-indigo-700 mb-2">Step 1：GeminiでLPデザインをHTMLで作成</h3>
+                            <p class="text-slate-600">GeminiのCanvas機能を活用し、LPの見た目をHTMLとCSSで作成しました。これにより、Webサイトのようなリッチなデザインを迅速に生成できます。</p>
+                        </div>
+                        <div>
+                            <h3 class="text-lg font-bold text-indigo-700 mb-2">Step 2：HTMLを画像化</h3>
+                            <p class="text-slate-600">作成したHTMLコードをブラウザで表示させ、**GoFullPage**のようなブラウザ拡張機能や、Chromeの検証ツール（右クリック > 検証 > ノードをキャプチャ）を使い、表示されたデザインを高解像度の画像としてキャプチャし、PCに保存します。</p>
+                        </div>
+                        <div>
+                            <h3 class="text-lg font-bold text-indigo-700 mb-2">Step 3：Cloudinaryで画像をホスティング</h3>
+                            <p class="text-slate-600">Lステップのメディア機能に画像をアップロードすると、自動的に圧縮がかかり解像度が低下してしまいます。これを避けるため、外部の画像ホスティングサービス**「Cloudinary」**を利用します。</p>
+                            <ol class="list-decimal list-inside text-slate-600 mt-2 space-y-1">
+                                <li>Cloudinaryに無料登録し、ログイン。</li>
+                                <li>`Media Library > Assets` から、Step 2で作成した画像をアップロード。</li>
+                                <li>アップロードした画像のURLをコピーします。</li>
+                            </ol>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 4. Lステップへのヘッダー画像設定とCSS調整 -->
+        <section class="bg-white rounded-lg shadow-md p-6 mb-8">
+            <div class="flex items-start gap-4">
+                <div class="step-number">4</div>
+                <div>
+                    <h2 class="text-2xl font-bold text-slate-800 mb-3">Lステップへのヘッダー画像設定とCSS調整</h2>
+                    <p class="text-slate-600 mb-6">ここが技術的なポイントです。Lステップのフォームに、外部サービスの画像を美しく表示させるための設定を行います。</p>
+                    <h3 class="text-lg font-bold text-indigo-700 mb-2">設定手順</h3>
+                    <ol class="list-decimal list-inside text-slate-600 mb-6 space-y-2">
+                        <li><strong>ヘッダー画像URLの設定:</strong> Lステップのフォーム編集画面で `カラー/デザイン設定 > ヘッダー画像URL` を選択し、Cloudinaryで取得したURLを貼り付けます。</li>
+                        <li><strong>カスタムCSSの設定:</strong> `カラー/デザイン設定 > カスタムCSSを使用` を選択し、以下のCSSコードを貼り付けます。</li>
+                    </ol>
+
+                    <div class="code-block">
+                        <pre><code>/* ▼▼ ヘッダー画像をレスポンシブに表示させるためのCSS ▼▼ */
+
+/* Lステップのデフォルトのタイトルと説明文を非表示にする */
+.form-top .form-top-left {
+    display: none;
+}
+
+.form-top .form-top-right {
+    display: none;
+}
+
+/* ヘッダー画像の表示領域を調整 */
+.form-top {
+    background-position: center center;
+    width: 100%;
+    height: auto;
+    /* 画像の縦横比を固定し、高さを自動調整させる */
+    /* 計算式: [画像の幅] / [画像の高さ] */
+    aspect-ratio: 1380 / 2112;
+}
+
+/* PC表示の際の高さを調整（任意） */
+@media (min-width: 768px) {
+    .form-top {
+        /* PCでは高さを固定することも可能 */
+        height: 300px; 
+    }
+}</code></pre>
+                    </div>
+                    <div class="mt-4 bg-yellow-50 border-l-4 border-yellow-500 p-4 rounded-r-lg">
+                        <h4 class="font-bold text-yellow-800">最重要ポイント</h4>
+                        <p class="text-yellow-700 mt-1">`aspect-ratio: 1380 / 2112;` の部分です。これにより、スマートフォンの画面幅が変わっても、ヘッダー画像の縦横比が常に一定に保たれ、美しく表示されます。この数値は**「画像の実際の幅 / 画像の実際の高さ」**で算出するため、画像を変更した場合は、この数値を再計算して修正する必要があります。</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 5. サンクスページの設定 -->
+        <section class="bg-white rounded-lg shadow-md p-6 mb-8">
+            <div class="flex items-start gap-4">
+                <div class="step-number">5</div>
+                <div>
+                    <h2 class="text-2xl font-bold text-slate-800 mb-3">サンクスページの設定</h2>
+                    <p class="text-slate-600 mb-4">Lステップのフォームは、送信ボタン以外のカスタムボタンを設置できません。そのため、フォーム送信後のサンクスページを外部で作成し、LINE登録を促すフローを構築しました。</p>
+                    <ul class="space-y-2 text-slate-600">
+                        <li><strong>作成ツール:</strong> Google AI Studio のビルド機能</li>
+                        <li><strong>設定方法:</strong> Lステップのフォーム編集画面 `オプション > サンクスページURL` に、AI StudioでデプロイしたページのURLを設定します。</li>
+                        <li><strong>AI Studio 共有編集ページ:</strong> <a href="https://aistudio.google.com/app/prompts?state=%7B%22ids%22:%5B%221M2bR1v3h1-C24O1cLGWY3QD3Fo3wjSDT%22%5D,%22action%22:%22open%22,%22userId%22:%22110260755937203243485%22,%22resourceKeys%22:%7B%7D%7D&usp=sharing" target="_blank" class="text-indigo-600 hover:underline">こちらからアクセス</a></li>
+                        <li class="pt-2">
+                            <strong class="text-red-600">注意点:</strong> オンライン、東京、大阪でLINEの友だち追加リンクを分け、登録者をタグ付け管理したい場合は、それぞれ個別のサンクスページを作成・デプロイする必要があります。
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+
+        <!-- 補足 -->
+        <section class="bg-white rounded-lg shadow-md p-6">
+            <div class="flex items-start gap-4">
+                <div class="step-number" style="background-color: #64748b;">!</div>
+                <div>
+                    <h2 class="text-2xl font-bold text-slate-800 mb-3">補足：開催地ごとのヘッダー画像について</h2>
+                    <p class="text-slate-600">LP画像の上部にある「オンライン」「大阪」といった開催地のテキストは、現在**Canva**を使って各パターンの画像に直接文字入れをしています。将来的には、この部分もより効率的な運用方法を検討する必要があります。</p>
+                </div>
+            </div>
+        </section>
+
+    </div>
+
+</body>
+</html>
